@@ -1,4 +1,4 @@
-ERSION="$1"
+VERSION="$1"
 
 sudo apt update && sudo apt install -y \
 	re2c \
