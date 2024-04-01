@@ -23,43 +23,46 @@ declare(strict_types=1);
 
 namespace pocketmine\network\mcpe\protocol\types\inventory;
 
+use pocketmine\item\Item;
 use pocketmine\network\mcpe\NetworkBinaryStream;
-use function count;
 
-final class InventoryTransactionChangedSlotsHack{
+final class ItemStackWrapper{
 
 	/** @var int */
-	private $containerId;
-	/** @var int[] */
-	private $changedSlotIndexes;
+	private $stackId;
+	/** @var Item */
+	private $itemStack;
 
-	/**
-	 * @param int[] $changedSlotIndexes
-	 */
-	public function __construct(int $containerId, array $changedSlotIndexes){
-		$this->containerId = $containerId;
-		$this->changedSlotIndexes = $changedSlotIndexes;
+	public function __construct(int $stackId, Item $itemStack){
+		$this->stackId = $stackId;
+		$this->itemStack = $itemStack;
 	}
 
-	public function getContainerId() : int{ return $this->containerId; }
+	public static function legacy(Item $itemStack) : self{
+		return new self($itemStack->isNull() ? 0 : 1, $itemStack);
+	}
 
-	/** @return int[] */
-	public function getChangedSlotIndexes() : array{ return $this->changedSlotIndexes; }
+	public function getStackId() : int{ return $this->stackId; }
+
+	public function getItemStack() : Item{ return $this->itemStack; }
 
 	public static function read(NetworkBinaryStream $in) : self{
-		$containerId = $in->getByte();
-		$changedSlots = [];
-		for($i = 0, $len = $in->getUnsignedVarInt(); $i < $len; ++$i){
-			$changedSlots[] = $in->getByte();
-		}
-		return new self($containerId, $changedSlots);
+		$stackId = 0;
+		$stack = $in->getItemStack(function(NetworkBinaryStream $in) use (&$stackId) : void{
+			$hasNetId = $in->getBool();
+			if($hasNetId){
+				$stackId = $in->readGenericTypeNetworkId();
+			}
+		});
+		return new self($stackId, $stack);
 	}
 
 	public function write(NetworkBinaryStream $out) : void{
-		$out->putByte($this->containerId);
-		$out->putUnsignedVarInt(count($this->changedSlotIndexes));
-		foreach($this->changedSlotIndexes as $index){
-			$out->putByte($index);
-		}
+		$out->putItemStack($this->itemStack, function(NetworkBinaryStream $out) : void{
+			$out->putBool($this->stackId !== 0);
+			if($this->stackId !== 0){
+				$out->writeGenericTypeNetworkId($this->stackId);
+			}
+		});
 	}
 }
