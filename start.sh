@@ -33,7 +33,7 @@ if [ "$PHP_BINARY" == "" ]; then
 fi
 
 if [ "$POCKETMINE_FILE" == "" ]; then
-	if [ -f ./BetterAltay.phar ]; then
+	if [ -f ./GenisysPro.phar ]; then
 		POCKETMINE_FILE="./GenisysPro.phar"
 	else
 		echo "GenisysPro.phar not found"
