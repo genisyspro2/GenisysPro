@@ -1,5 +1,5 @@
 @echo off
-TITLE GenisysPro server software for Minecraft: Bedrock Edition
+TITLE BetterAltay server software for Minecraft: Bedrock Edition
 cd /d %~dp0
 
 set PHP_BINARY=
@@ -23,13 +23,13 @@ if "%PHP_BINARY%"=="" (
 )
 
 if exist BetterAltay.phar (
-	set POCKETMINE_FILE=GenisysPro.phar
+	set POCKETMINE_FILE=BetterAltay.phar
 ) else (
     if exist src/pocketmine/PocketMine.php (
         set POCKETMINE_FILE=src\pocketmine\PocketMine.php
     ) else (
-      echo GenisysPro.phar not found
-    	echo Downloads can be found at https://github.com/genisyspro2/GenisysPro/releases
+      echo BetterAltay.phar not found
+    	echo Downloads can be found at https://github.com/Benedikt05/BetterAltay/releases
     	pause
     	exit 1
     )
