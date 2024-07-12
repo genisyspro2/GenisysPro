@@ -34,7 +34,7 @@
       "composer-runtime-api": "^2.0",
       "adhocore/json-comment": "^1.1",
       "fgrosse/phpasn1": "^2.3",
-      "pocketmine/binaryutils": "^0.1.9",
+      "pocketmine/binaryutils": "^0.2.6",
       "pocketmine/callback-validator": "^1.0.2",
       "pocketmine/classloader": "^0.2.0",
       "pocketmine/log": "^0.2.0",
