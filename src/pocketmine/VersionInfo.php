@@ -34,6 +34,6 @@ const _VERSION_INFO_INCLUDED = true;
 
 const NAME = "GenisysPro";
 const BASE_VERSION = "3.28.0"; //Don't change this anymore. Change the FORK_VERSION instead.
-const FORK_VERSION = "1.20.0";
+const FORK_VERSION = "1.21.2";
 const IS_DEVELOPMENT_BUILD = true;
 const BUILD_CHANNEL = "master";
